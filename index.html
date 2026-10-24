@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#B8D4C9"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-192.png">
+<title>Do it</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800&family=Bricolage+Grotesque:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--bg:#B8D4C9;--card:#D5E0DA;--ink:#263B35;--mute:#5E776E;--coral:#47B49A;--teal:#A8D8C6;--sun:#B8C9C0;
+--sh:7px 9px 18px rgba(38,59,53,.09),-3px -3px 10px rgba(255,255,255,.38),inset 1px 1px 1px rgba(255,255,255,.42);
+--shs:4px 5px 9px rgba(38,59,53,.08),-2px -2px 6px rgba(255,255,255,.42),inset 1px 1px 1px rgba(255,255,255,.46);
+--ins:inset 3px 3px 7px rgba(38,59,53,.07),inset -3px -3px 7px rgba(255,255,255,.5);
+--ease:cubic-bezier(.22,1,.36,1);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;font-weight:500;overflow:hidden}
+#app{height:100%;max-width:520px;margin:auto;position:relative;overflow:hidden}
+#st{position:absolute;inset:0}
+.page{position:absolute;inset:0;overflow-y:auto;padding:22px 22px 120px}
+.f{animation:inf .22s var(--ease) both}.b{animation:inb .22s var(--ease) both}
+@keyframes inf{from{opacity:0;transform:translateX(28px)}}
+@keyframes inb{from{opacity:0;transform:translateX(-28px)}}
+h1{font:800 30px/1.1 "Bricolage Grotesque",Nunito,system-ui,sans-serif;letter-spacing:-.8px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:48px;height:48px;flex:none;filter:drop-shadow(3px 5px 6px rgba(38,59,53,.16))}
+.wm{font:800 30px/1 "Bricolage Grotesque",Nunito,sans-serif;letter-spacing:-1px}.wm b{color:var(--coral);font-weight:800}
+.av{overflow:hidden;padding:0}.av img{width:100%;height:100%;object-fit:cover}
+.fl{position:relative;display:inline-block;overflow:hidden;cursor:pointer}.fl input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+.sub{color:var(--mute);margin-top:6px;font-size:15px}
+.top{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.ib{width:46px;height:46px;border-radius:16px;border:0;background:var(--card);box-shadow:0 4px 12px rgba(38,59,53,.08), inset 0 1px 0 rgba(255,255,255,.45);display:grid;place-items:center;color:var(--ink);cursor:pointer;flex:none;transition:transform .15s}
+.ib:active,.card:active{transform:scale(.95)}
+.ib.pri{background:var(--coral);color:#173E34}
+svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.seg{display:flex;background:var(--bg);border-radius:20px;padding:5px;box-shadow:var(--ins);position:relative;margin:4px 0 26px}
+.seg button{flex:1;border:0;background:none;padding:13px;border-radius:16px;font:800 16px Nunito,sans-serif;color:var(--mute);cursor:pointer;transition:color .16s;position:relative;z-index:1}
+.seg button.on{color:#173E34}
+.seg i{position:absolute;top:5px;bottom:5px;left:5px;width:calc(50% - 5px);border-radius:16px;background:var(--coral);box-shadow:0 4px 12px rgba(38,59,53,.08), inset 0 1px 0 rgba(255,255,255,.45);transition:transform .22s cubic-bezier(.2,.75,.25,1)}
+.seg[data-c="12"] i{transform:translateX(100%)}
+.sw{transition:opacity .18s,transform .18s}.out{opacity:0;transform:translateY(10px)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pop{animation:pop .24s var(--ease) both}
+@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.96)}}
+.card{background:var(--card);border-radius:26px;box-shadow:0 8px 20px rgba(38,59,53,.09), inset 0 1px 0 rgba(255,255,255,.55);padding:clamp(16px,4.5vw,22px);cursor:pointer;border:0;text-align:left;color:var(--ink);font-family:inherit;transition:transform .22s var(--ease);display:block;width:100%;min-width:0}.grid>.card{min-height:198px}.grid>.card .badge{margin-bottom:30px}
+.badge{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;color:#fff;margin-bottom:34px;box-shadow:inset 2px 3px 5px rgba(255,255,255,.55),inset -3px -4px 7px rgba(38,59,53,.08),4px 6px 10px rgba(38,59,53,.10)}
+.badge svg{width:26px;height:26px}
+.card b{font-size:17px;font-weight:800;display:block}
+.card small{color:var(--mute);font-size:13px}
+.list{display:flex;flex-direction:column;gap:20px;min-width:0}
+.row{display:flex;align-items:center;gap:12px;padding:16px;min-width:0}.card.row{padding:clamp(14px,4vw,18px);border-radius:24px}.row>div:nth-child(2){flex:1;min-width:0}.row b{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.row small{display:block;line-height:1.45;overflow-wrap:anywhere}
+.row .badge{margin:0;width:46px;height:46px;border-radius:15px;flex:none}
+.row .badge svg{width:23px;height:23px}
+.row div:nth-child(2){min-width:0}.row b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.del{margin-left:auto;background:none;border:0;color:var(--mute);padding:8px;cursor:pointer}
+.lib-search{display:block;width:100%;min-width:0;margin:0 0 24px;padding:13px 10px;border:0;border-bottom:1.5px solid rgba(38,59,53,.24);border-radius:0;background:transparent;color:var(--ink);font:700 15px Nunito,sans-serif;outline:none;box-shadow:none;transition:border-color .22s ease,background .22s ease}.lib-search:focus{border-color:var(--coral);background:rgba(255,255,255,.12);box-shadow:none}.lib-search::placeholder{color:var(--mute);opacity:.9}
+.tabs{display:flex;align-items:center;gap:12px;margin:0 0 26px;overflow-x:auto;padding:3px 2px 5px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.tab{border:0;border-radius:18px;padding:12px 18px;font:800 15px Nunito,sans-serif;background:var(--card);box-shadow:0 4px 12px rgba(38,59,53,.08), inset 0 1px 0 rgba(255,255,255,.45);color:var(--mute);white-space:nowrap;cursor:pointer;transition:background .16s,color .16s}
+.tab.on{background:var(--teal);color:#173E34}
+textarea{width:100%;padding:14px 16px;border-radius:16px;border:0;background:var(--bg);font:600 15px Nunito,sans-serif;color:var(--ink);box-shadow:var(--ins);outline:0;resize:vertical}
+.empty{text-align:center;padding:50px 20px;color:var(--mute)}
+.empty .badge{margin:0 auto 18px;background:var(--sun)}
+.empty b{color:var(--ink);font-size:18px}
+h3{font-size:14px;color:var(--mute);margin:8px 0 12px;letter-spacing:.8px;text-transform:uppercase}
+nav{position:absolute;left:16px;right:16px;bottom:14px;height:70px;background:var(--card);border-radius:28px;box-shadow:0 8px 20px rgba(38,59,53,.09), inset 0 1px 0 rgba(255,255,255,.55);display:flex;padding:6px;z-index:5;transition:transform .22s var(--ease)}
+.hide nav{transform:translateY(140%)}
+nav i{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/4);border-radius:22px;background:var(--coral);box-shadow:0 4px 12px rgba(38,59,53,.08), inset 0 1px 0 rgba(255,255,255,.45);transition:transform .22s cubic-bezier(.2,.75,.25,1)}
+nav[data-i="1"] i{transform:translateX(100%)}nav[data-i="2"] i{transform:translateX(200%)}nav[data-i="3"] i{transform:translateX(300%)}
+nav button{flex:1;position:relative;z-index:1;background:none;border:0;color:var(--mute);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font:800 11px Nunito,sans-serif;transition:color .16s;cursor:pointer}
+nav button.on{color:#173E34}
+.page.vw{padding:16px;display:flex;flex-direction:column;overflow:hidden}
+.vw .top{margin-bottom:14px}.vw h1{font-size:19px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pdf-top{gap:10px}.download-btn{margin-left:auto}
+iframe{flex:1;width:100%;border:0;border-radius:22px;background:#fff;box-shadow:0 8px 20px rgba(38,59,53,.09), inset 0 1px 0 rgba(255,255,255,.55);opacity:0;transition:opacity .16s var(--ease)}
+iframe.pdf-ready{opacity:1}
+.pdf-stage{position:relative;flex:1;min-height:0;display:flex;overflow:hidden;border-radius:22px;background:var(--card);box-shadow:var(--sh)}
+.pdf-sync{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:var(--card);transition:opacity .16s var(--ease),transform .16s var(--ease);pointer-events:none}
+.pdf-sync.done{opacity:0;transform:scale(.985)}
+.sync-mark{width:64px;height:64px;position:relative;display:grid;place-items:center;color:var(--coral)}
+.sync-mark svg{width:38px;height:38px;stroke-width:1.8}
+.sync-ring{position:absolute;inset:0;border:2px solid rgba(71,180,154,.18);border-top-color:var(--coral);border-right-color:var(--teal);border-radius:50%;animation:syncspin .7s linear infinite}
+.sync-orbit{position:absolute;inset:8px;border:1px dashed rgba(71,180,154,.5);border-radius:50%;animation:syncspin 1.4s linear infinite reverse}
+@keyframes syncspin{to{transform:rotate(360deg)}}
+.sync-title{font:800 16px Nunito,sans-serif;color:var(--ink)}
+.sync-sub{font:600 12px Nunito,sans-serif;color:var(--mute);margin-top:-10px}
+.sync-track{width:104px;height:3px;border-radius:9px;overflow:hidden;background:rgba(71,180,154,.18)}
+.sync-track i{display:block;width:38%;height:100%;border-radius:9px;background:var(--coral);animation:syncflow .8s ease-in-out infinite}
+@keyframes syncflow{from{transform:translateX(-110%)}to{transform:translateX(280%)}}
+@media(max-width:380px){.page{padding-left:18px;padding-right:18px}.grid{gap:14px}.grid>.card{min-height:184px}.card{border-radius:23px}.sk-grid{gap:14px}.sk.subject{height:184px;border-radius:23px}.row{gap:10px}.card.row{padding:13px}}
+.danger{color:#B86F6F}.trash-toast{position:fixed;z-index:30;left:16px;right:16px;bottom:calc(88px + env(safe-area-inset-bottom,0px));max-width:488px;margin:auto;background:var(--card);box-shadow:0 8px 20px rgba(38,59,53,.09), inset 0 1px 0 rgba(255,255,255,.55);border-radius:18px;padding:14px 16px;display:flex;align-items:center;gap:12px;animation:toastIn .18s var(--ease)}.trash-toast b{font-size:14px;flex:1}.trash-toast button{border:0;background:var(--coral);color:#173E34;border-radius:12px;padding:10px 13px;font:800 13px Nunito,sans-serif}.trash-toast.out{animation:toastOut .22s forwards}@keyframes toastIn{from{opacity:0;transform:translateY(18px)}}@keyframes toastOut{to{opacity:0;transform:translateY(18px)}}/* File deletion: smooth shrink only; no pixel dissolve. */
+.delete-combo{position:relative!important;overflow:hidden!important;transform-origin:center;pointer-events:none;animation:deleteShrink .26s cubic-bezier(.22,.72,.22,1) forwards!important}
+@keyframes deleteShrink{0%{transform:scale(1);opacity:1}70%{transform:scale(.92);opacity:.75}100%{transform:scale(.72);opacity:0}}
+.trash-anim{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:rgba(38,59,53,.18);animation:fade .16s}.trash-anim .ta-card{width:104px;height:104px;border-radius:30px;background:var(--card);box-shadow:0 8px 20px rgba(38,59,53,.09), inset 0 1px 0 rgba(255,255,255,.55);display:grid;place-items:center;color:var(--coral)}.trash-anim svg{width:44px;height:44px;animation:binMove .36s var(--ease) both}.trash-anim.perm svg{animation:binDrop .36s var(--ease) both}@keyframes binMove{0%{transform:translateY(-12px) rotate(-12deg);opacity:.4}45%{transform:translateY(3px) rotate(8deg)}75%{transform:translateY(-2px) rotate(-3deg)}100%{transform:none;opacity:1}}@keyframes binDrop{0%{transform:translateY(-8px) scale(1);opacity:1}65%{transform:translateY(16px) scale(.86);opacity:.75}100%{transform:translateY(30px) scale(.55);opacity:0}}.mini-note{font-size:12px;color:var(--mute);line-height:1.5;margin-top:10px}.sheet{position:fixed;inset:0;background:rgba(38,59,53,.28);z-index:9;display:flex;align-items:flex-end;justify-content:center;animation:fade .16s}
+@keyframes fade{from{opacity:0}}
+.panel{background:var(--bg);width:100%;max-width:520px;border-radius:32px 32px 0 0;padding:26px 22px calc(26px + env(safe-area-inset-bottom,0px));max-height:92%;overflow:auto;animation:up .24s var(--ease)}
+@keyframes up{from{transform:translateY(60%)}}
+label{display:block;font-weight:800;font-size:13px;margin:16px 0 7px;color:var(--mute)}
+select,input[type=text]{width:100%;padding:14px 16px;border-radius:16px;border:0;background:var(--bg);font:600 16px Nunito,sans-serif;color:var(--ink);box-shadow:var(--ins);outline:0}
+.btn{width:100%;margin-top:24px;padding:16px;border-radius:20px;border:0;background:var(--coral);color:#173E34;font:800 17px Nunito,sans-serif;box-shadow:0 4px 12px rgba(38,59,53,.08), inset 0 1px 0 rgba(255,255,255,.45);cursor:pointer}
+.btn.alt{background:var(--card);color:var(--ink)}
+.note{font-size:13px;color:var(--mute);margin-top:12px;line-height:1.5}
+.me{text-align:center;margin-bottom:28px}.me .badge{margin:0 auto 16px;width:84px;height:84px;border-radius:30px;background:var(--teal)}.me .badge svg{width:40px;height:40px}
+.me .badge{overflow:hidden}.me .badge img{width:100%;height:100%;object-fit:cover}
+button[onclick="back()"]{background:none;box-shadow:none;width:40px;margin-left:-8px}
+#sp{position:fixed;inset:0;background:var(--bg);z-index:99;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .2s var(--ease),transform .2s var(--ease)}
+#sp.gone{opacity:0;transform:scale(1.06);pointer-events:none}
+#sp .w{font:800 56px/1 "Bricolage Grotesque",Nunito,sans-serif;letter-spacing:-2px;color:var(--ink);animation:logoReveal .72s cubic-bezier(.2,.75,.25,1) both}
+#sp .w b{color:var(--coral)}
+#sp .t{margin-top:16px;font:700 12px Nunito,sans-serif;letter-spacing:3.5px;text-transform:uppercase;color:#5E776E;animation:tagReveal .58s .22s cubic-bezier(.2,.75,.25,1) both}
+#sp .ln{position:absolute;bottom:calc(76px + env(safe-area-inset-bottom,0px));width:110px;height:2px;background:#9DBDB1;border-radius:2px;overflow:hidden}
+#sp .ln i{display:block;height:100%;width:100%;background:var(--coral);transform:scaleX(0);transform-origin:left center;animation:ld 1.8s linear forwards}
+#sp .v{position:absolute;bottom:calc(34px + env(safe-area-inset-bottom,0px));font:700 11px Nunito,sans-serif;letter-spacing:1.5px;color:#5B544C}
+@keyframes sw{from{opacity:0;transform:translateY(14px)}}
+@keyframes logoReveal{0%{opacity:0;transform:translateY(18px) scale(.88);filter:blur(5px)}65%{opacity:1;filter:blur(0);transform:translateY(-2px) scale(1.025)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes tagReveal{0%{opacity:0;transform:translateY(10px);letter-spacing:6px}100%{opacity:1;transform:translateY(0);letter-spacing:3.5px}}
+@keyframes ld{to{transform:scaleX(1)}}
+#pt{position:absolute;left:50%;top:0;width:44px;height:44px;margin-left:-22px;z-index:4;opacity:0;pointer-events:none;transform:translateY(-22px)}
+#pt svg{width:44px;height:44px;stroke:var(--coral);stroke-width:3.6;fill:none}
+#pt path{stroke-dasharray:100 100;stroke-dashoffset:100}
+#pt.spin path{stroke-dasharray:55 45;animation:chase .9s linear infinite}
+@keyframes chase{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+@keyframes shrinkOut{0%{transform:scale(1);opacity:1}100%{transform:scale(.82);opacity:0}}
+
+/* Responsive polish: consistent Library rhythm and a comfortable desktop content width. */
+#st{min-width:0;width:100%}
+.page{min-width:0}
+#ls{margin-top:0}
+#ls .row{width:100%;min-width:0}
+@media(min-width:700px){
+  .page{width:min(100% - 64px,1040px);margin-inline:auto;padding-left:0;padding-right:0}
+  #st .lib-search{margin-bottom:28px;font-size:16px;padding:15px 12px}
+  #st .tabs{gap:14px;margin-bottom:30px}
+  #st .list{gap:18px}
+  #st .row{padding:20px 22px;border-radius:22px}
+  #st .row b{font-size:18px}
+  #st .row small{font-size:14px}
+}
+@media(min-width:1000px){
+  .page{width:min(100% - 96px,1120px)}
+  #st .list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:18px}
+  #st .row{height:100%;min-height:104px}
+}
+@media(max-width:420px){
+  .lib-search{margin-bottom:20px;padding:12px 8px}
+  .tabs{gap:9px;margin-bottom:22px}
+  .list{gap:16px}
+}
+
+</style></head><body><div id="sp"><div class="w">Do <b>it</b></div><div class="t">Study smart</div><div class="ln"><i></i></div><div class="v">VERSION 1.3</div></div>
+<div id="app"><div id="st"></div><div id="pt"><svg viewBox="0 0 48 48"><path pathLength="100" d="M15 9v30h8c10 0 16-6 16-15S33 9 23 9z"/></svg></div></div>
+<script>
+let PDF_DOWNLOAD_URL="";
+const P=d=>'<svg viewBox="0 0 24 24">'+d+'</svg>';
+const I={
+back:P('<path d="M19 12H5M11 6l-6 6 6 6"/>'),download:P('<path d="M12 3v12m-5-5 5 5 5-5"/><path d="M5 17v3h14v-3"/>'),plus:P('<path d="M12 5v14M5 12h14"/>'),trash:P('<path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/>'),
+home:P('<path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/>'),lib:P('<path d="M4 7a2 2 0 012-2h4l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2z"/>'),
+star:P('<path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.8 6.6 19.7l1.1-6.1L3.2 9.4l6.1-.8z"/>'),user:P('<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/>'),
+cal:P('<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/>'),lock:P('<rect x="5" y="11" width="14" height="9" rx="3"/><path d="M8 11V8a4 4 0 018 0v3"/>'),
+atom:P('<g><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></g><circle cx="12" cy="12" r="1.4" fill="currentColor"/>'),
+pi:P('<path d="M5 7h14M9 7v11M15 7v8a2 2 0 002 2"/>'),
+eng:P('<path d="M2.5 18l5-12 5 12M4.5 14h6M17 12a3 3 0 100 6 3 3 0 000-6zM20 12v6"/>'),
+pen:P('<path d="M4 20l4-1 11-11a2.1 2.1 0 00-3-3L5 16z"/><path d="M14 7l3 3"/>'),
+pc:P('<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'),
+quran:P('<path d="M12 6c-2-1.5-5-2-8-2v14c3 0 6 .5 8 2 2-1.5 5-2 8-2V4c-3 0-6 .5-8 2zM12 6v14"/>'),
+pak:P('<path d="M20 14.5A8 8 0 119.5 4a6.5 6.5 0 0010.5 10.5z"/><path d="M17.5 6l.7 1.5 1.6.2-1.2 1.1.3 1.6-1.4-.8-1.4.8.3-1.6-1.2-1.1 1.6-.2z"/>')};
+Object.assign(I,{
+atom:P('<ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/><circle cx="12" cy="12" r="1.9" fill="currentColor"/>'),
+pi:P('<rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 7.5h8M8 12.5h.01M12 12.5h.01M16 12.5h.01M8 16.5h.01M12 16.5h.01M16 16.5h.01"/>'),
+eng:P('<path d="M4 5h16v11h-9l-4 4v-4H4z"/><path d="M9.5 13.2L12 7l2.5 6.2M10.4 11.3h3.2"/>'),
+pen:P('<path d="M12 3l6 9-6 9-6-9z"/><path d="M12 3v8"/><circle cx="12" cy="13" r="1.3"/>'),
+quran:P('<path d="M5 4h11a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17a3 3 0 013-3h11"/><path d="M13.4 6.5a2.6 2.6 0 000 5 3.4 3.4 0 010-5z" transform="translate(.4 0)"/>'),
+pak:P('<path d="M5 21V4"/><path d="M5 4h13l-2.5 4 2.5 4H5"/>')});
+Object.assign(I,{
+atom:P('<path d="M4 3h5v9a3 3 0 006 0V3h5v9a8 8 0 01-16 0z"/><path d="M4 8h5M15 8h5"/>'),
+eng:P('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3.2 3.4 3.2 14.6 0 18M12 3c-3.2 3.4-3.2 14.6 0 18"/>'),
+pen:P('<path d="M4 20l1-4L16 5a2.1 2.1 0 013 3L8 19z"/><path d="M14 7l3 3M4 22h16"/>'),
+quran:P('<path d="M12 7c-2-1.2-4.5-1.7-7-1.7v9c2.5 0 5 .5 7 1.7 2-1.2 4.5-1.7 7-1.7v-9c-2.5 0-5 .5-7 1.7zM12 7v9"/><path d="M8 21l4-5 4 5"/>'),
+pak:P('<path d="M3 21h18M6 21v-7h12v7"/><path d="M8 14a4 4 0 018 0M12 7v3"/><path d="M3 21V11M21 21V11"/>')});
+const SUB={11:[["Physics","#47B49A","atom"],["Mathematics","#A8D8C6","pi"]],
+12:[["English","#E8C9A2","eng"],["Urdu","#A8D8C6","pen"],["Computer","#47B49A","pc"],["Physics","#E8C9A2","atom"],["Mathematics","#A8D8C6","pi"],["Tarjuma tul Quran","#E8C9A2","quran"],["Pak Studies","#47B49A","pak"]]};
+const CATS=["Books","Solved Notes","Extras"],TAGS=["Pattern","Date Sheet","Pairing Scheme","Other"];
+const DEFSEC=["MCQs","Short Questions","Long Questions"];
+const SEC={"Mathematics":["MCQs"],"Physics":["MCQs","Short Questions","Long Questions","Numericals"],
+"Computer":["MCQs","Short Questions","Long Questions","Programs"],
+"English":["MCQs","Short Questions","Long Questions","Grammar"],
+"Urdu":["MCQs","Short Questions","Long Questions","Grammar"],
+"Tarjuma tul Quran":["Tarjma","MCQs","Short Questions","Long Questions"],
+"Pak Studies":["MCQs","Short Questions","Long Questions"]};
+const FC=["#47B49A","#A8D8C6","#E8C9A2","#B8C9C0"];
+I.doc=P('<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/>');
+I.up=P('<path d="M6 15l6-6 6 6"/>');I.down=P('<path d="M6 9l6 6 6-6"/>');
+const NV=[["Home","home"],["Library","lib"],["Extras","star"],["Profile","user"]];
+let S={tab:0,cls:12,sub:null,cat:"Books",ch:null,sec:null,lib:0,query:"",dir:1,v:null},items=[],trashItems=[],db=null,OK=false,H=[];
+try{trashItems=JSON.parse(localStorage.getItem("trashItems")||"[]")}catch(e){}
+const saveTrash=()=>{try{localStorage.setItem("trashItems",JSON.stringify(trashItems))}catch(e){}};
+const push=()=>{H.push({tab:S.tab,sub:S.sub,cat:S.cat,ch:S.ch,sec:S.sec,lib:S.lib,v:S.v,vu:S.vu,vt:S.vt});if(H.length>30)H.shift()};
+function back(){const p=H.pop();if(!p)return;Object.assign(S,p);S.dir=-1;render()}
+const bk=()=>H.length?'<button class="ib" onclick="back()">'+I.back+'</button>':'';
+const LOGO='<svg class="logo" viewBox="0 0 48 48"><rect width="48" height="48" rx="16" fill="#47B49A" stroke="none"/><path d="M12 25.5l8 8L36 15" stroke="#fff" stroke-width="5.5" fill="none"/><circle cx="36" cy="11" r="3.2" fill="#E8C9A2" stroke="none"/></svg>';
+const PH="f22c4ed0e85c15b11d973cd2a39969187db16b97135b16b98c12ca17985aea14";
+try{items=JSON.parse(localStorage.getItem("items")||"[]")}catch(e){}
+const starterDriveFiles=[
+ {id:"drive-math-12",cls:12,sub:"Mathematics",cat:"Books",tag:"",title:"Math",type:"link",url:"https://drive.google.com/file/d/1JpyvlN0Cnw3vgGR9LzzTdahvDCbLaKMI/view?usp=drivesdk"},
+ {id:"drive-english-12",cls:12,sub:"English",cat:"Books",tag:"",title:"English",type:"link",url:"https://drive.google.com/file/d/1ZxMrBT_rgDdPqxhpKKD3mvXfKjxSTazj/view?usp=drivesdk"},
+ {id:"drive-computer-12",cls:12,sub:"Computer",cat:"Books",tag:"",title:"Comp",type:"link",url:"https://drive.google.com/file/d/1zmXxwFqVf4mx46LiosJlsjETKICtJNXO/view?usp=drivesdk"},
+ {id:"drive-tq-12",cls:12,sub:"Tarjuma tul Quran",cat:"Books",tag:"",title:"T.q",type:"link",url:"https://drive.google.com/file/d/1Mp00tD9RxLrr0Q7SGWkBn3LQfy-gUJVw/view?usp=drivesdk"},
+ {id:"drive-pakstudies-12",cls:12,sub:"Pak Studies",cat:"Books",tag:"",title:"Pak studies",type:"link",url:"https://drive.google.com/file/d/1-flkQ3Pegb8iPatmtyqnyB3pCooiTeCD/view?usp=drivesdk"},
+ {id:"drive-urdu-12",cls:12,sub:"Urdu",cat:"Books",tag:"",title:"Urdu",type:"link",url:"https://drive.google.com/file/d/1C_RLsFZd5rei6ylkacHU21IrAzu9E6iC/view?usp=drivesdk"},
+ {id:"drive-urdu-grammar-12",cls:12,sub:"Urdu",cat:"Books",tag:"",title:"Urdu grammar",type:"link",url:"https://drive.google.com/file/d/1kmSSi2sYfg1Vp9wVBKzro9pgGtSp5x4G/view?usp=drivesdk"}
+];
+let starterFilesChanged=false;
+for(const f of starterDriveFiles){
+ const fid=f.url.split("/d/")[1]?.split("/")[0]||"";if(!items.some(x=>x.id===f.id||(fid&&String(x.url||"").includes(fid)))){
+  items.push(f);starterFilesChanged=true;
+ }
+}
+const save=()=>{try{localStorage.setItem("items",JSON.stringify(items))}catch(e){}};
+if(starterFilesChanged)save();
+let CHS={};try{CHS=JSON.parse(localStorage.getItem("chapters")||"{}")}catch(e){}
+const persistCh=()=>{try{localStorage.setItem("chapters",JSON.stringify(CHS))}catch(e){}};
+/* Shared catalog: upload the exported items.json somewhere public (e.g. GitHub Pages raw link) and paste its URL here before sharing the app. */
+const CATALOG_URL="";
+let RM=[];try{RM=JSON.parse(localStorage.getItem("rmids")||"[]")}catch(e){}
+const persistRm=()=>{try{localStorage.setItem("rmids",JSON.stringify(RM))}catch(e){}};
+let EXN={};try{EXN=JSON.parse(localStorage.getItem("exn")||"{}")}catch(e){}
+const persistEx=()=>{try{localStorage.setItem("exn",JSON.stringify(EXN))}catch(e){}};
+let ME={name:"Student",pic:""};try{Object.assign(ME,JSON.parse(localStorage.getItem("me")||"{}"))}catch(e){}
+function idb(cb){try{const r=indexedDB.open("tayyari",1);r.onupgradeneeded=()=>r.result.createObjectStore("f");r.onsuccess=()=>{db=r.result;cb()};r.onerror=()=>cb()}catch(e){cb()}}
+function putF(id,b,cb){try{const t=db.transaction("f","readwrite");t.objectStore("f").put(b,id);t.oncomplete=cb;t.onerror=cb}catch(e){cb()}}
+function getF(id,cb){try{const q=db.transaction("f").objectStore("f").get(id);q.onsuccess=()=>cb(q.result);q.onerror=()=>cb()}catch(e){cb()}}
+function delF(id){try{db.transaction("f","readwrite").objectStore("f").delete(id)}catch(e){}}
+const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const SB=(c,n)=>SUB[c].find(s=>s[0]==n)||["",'#47B49A',"lib"];
+const seg=(c,fn)=>'<div class="seg" id="sg" data-c="'+c+'"><i></i><button class="'+(c==11?'on':'')+'" onclick="'+fn+'(11)">11th Class</button><button class="'+(c==12?'on':'')+'" onclick="'+fn+'(12)">12th Class</button></div>';
+const hd=(t,s)=>'<div class="top">'+bk()+'<div><h1>'+t+'</h1><div class="sub">'+s+'</div></div></div>';
+const emp=(t,s)=>'<div class="empty pop"><div class="badge">'+I.lib+'</div><b>'+t+'</b><div class="sub">'+s+'</div></div>';
+function swap(id,h){const e=$(id);e.classList.add("out");setTimeout(()=>{e.innerHTML=h;e.classList.remove("out")},90)}
+function row(x,full,i){const s=SB(x.cls,x.sub),ic=x.tag=="Date Sheet"?"cal":(s[2]);
+ return '<div class="card row pop" style="animation-delay:'+(i*12)+'ms" onclick="view(\''+x.id+'\')"><div class="badge" style="background:'+s[1]+'">'+I[ic]+'</div><div><b>'+esc(x.title)+'</b><small>'+(x.tag||(x.ch?x.ch+' › '+x.sec:x.cat))+(full?' · '+x.sub+' · '+x.cls+'th':'')+'</small></div>'+(OK?'<button class="del" style="margin-left:0" onclick="event.stopPropagation();editF(\''+x.id+'\')">'+I.pen+'</button><button class="del" style="margin-left:0" onclick="event.stopPropagation();rm(\''+x.id+'\')">'+I.trash+'</button>':'')+'</div>'}
+const rows=(L,full,m)=>L.length?L.map((x,i)=>row(x,full,i)).join(""):emp("Nothing here yet",m);
+function cards(){return SUB[S.cls].map((s,i)=>{const n=items.filter(x=>x.cls==S.cls&&x.sub==s[0]).length;
+ return '<button class="card pop" style="animation-delay:'+(i*12)+'ms" onclick="openSub('+i+')"><div class="badge" style="background:'+s[1]+'">'+I[s[2]]+'</div><b>'+s[0]+'</b><small>'+n+(n==1?' file':' files')+'</small></button>'}).join("")}
+function home(){if(S.sub)return subj();
+ return '<div class="top"><div><div class="wm">Do <b>it</b></div><div class="sub" style="margin-top:6px">'+(ME.name&&ME.name!="Student"?"Hi "+esc(ME.name)+", let's go":"Study smart. Get it done.")+'</div></div></div>'+seg(S.cls,'setCls')+'<div class="grid sw" id="gr">'+cards()+'</div>'}
+function setCls(c){if(c==S.cls)return;S.cls=c;$("sg").dataset.c=c;document.querySelectorAll("#sg button").forEach((b,i)=>b.classList.toggle("on",i==(c==11?0:1)));swap("gr",cards())}
+function openSub(i){push();S.sub=SUB[S.cls][i][0];S.cat="Books";S.ch=S.sec=null;S.dir=1;render()}
+function subL(){if(S.cat=="Solved Notes")return solvedV();return rows(items.filter(x=>x.cls==S.cls&&x.sub==S.sub&&x.cat==S.cat),false,(OK?"Tap + to add a file.":"Files will appear here soon."))}
+function subj(){return '<div class="top"><button class="ib" onclick="back()">'+I.back+'</button><div><h1 style="font-size:24px">'+S.sub+'</h1><div class="sub" style="margin:2px 0 0">'+S.cls+'th Class</div></div>'+addBtn()+'</div><div class="tabs">'+
+ CATS.map(c=>'<button class="tab '+(S.cat==c?'on':'')+'" onclick="setCat(this,\''+c+'\')">'+c+'</button>').join("")+'</div><div class="list sw" id="ls">'+subL()+'</div>'}
+function setCat(b,c){S.cat=c;S.ch=S.sec=null;document.querySelectorAll("#st .tabs .tab").forEach(t=>t.classList.toggle("on",t==b));swap("ls",subL())}
+const chList=(c,s)=>{const k=c+"|"+s;if(!CHS[k]){CHS[k]=[1,2,3,4,5].map(n=>"Chapter "+n);persistCh()}const t=new Set(CHS[k]);items.forEach(x=>{if(x.cls==c&&x.sub==s&&x.cat=="Solved Notes"&&x.ch)t.add(x.ch)});return [...t]};
+function addCh(c,s,n){const k=c+"|"+s;CHS[k]=CHS[k]||[];if(!CHS[k].includes(n)){CHS[k].push(n);persistCh()}}
+function fold(t,n,i,oc,ic,del,mv){const soon=!OK&&!n;return '<div class="card row pop" style="animation-delay:'+(i*12)+'ms'+(soon?';opacity:.55;cursor:default':'')+'"'+(soon?'':' onclick="'+oc+'"')+'><div class="badge" style="background:'+FC[i%4]+'">'+ic+'</div><div><b>'+esc(t)+'</b><small>'+(soon?'Coming soon':n+(n==1?' file':' files'))+'</small></div>'+(mv||'')+(del?'<button class="del" style="margin-left:0" onclick="event.stopPropagation();'+del+'">'+I.trash+'</button>':'')+'</div>'}
+const mvb=(i,n)=>['-1','1'].map(d=>'<button class="del" style="margin-left:0;padding:8px 4px'+((d<0&&i==0)||(d>0&&i==n-1)?';visibility:hidden':'')+'" onclick="event.stopPropagation();moveCh('+i+','+d+')">'+(d<0?I.up:I.down)+'</button>').join("");
+function moveCh(i,d){const k=S.cls+"|"+S.sub,L=chList(S.cls,S.sub),j=i+d;if(j<0||j>=L.length)return;[L[i],L[j]]=[L[j],L[i]];CHS[k]=L;persistCh();S.dir=0;render()}
+function crumbs(){if(!S.ch)return"";return '<div class="sub" style="margin:0 0 4px;grid-column:1/-1;font-weight:800"><span style="cursor:pointer;color:var(--coral)" onclick="goCrumb(0)">Chapters</span> › '+(S.sec?'<span style="cursor:pointer;color:var(--coral)" onclick="goCrumb(1)">'+esc(S.ch)+'</span> › '+esc(S.sec):esc(S.ch))+'</div>'}
+function solvedV(){const c=S.cls,s=S.sub,all=items.filter(x=>x.cls==c&&x.sub==s&&x.cat=="Solved Notes");
+ if(!S.ch){const L=chList(c,s),loose=all.filter(x=>!x.ch);let h=L.map((n,i)=>fold(n,all.filter(x=>x.ch==n).length,i,"openCh("+i+")",I.lib,(OK?"delCh("+i+")":""),OK?mvb(i,L.length):"")).join("");
+  if(loose.length)h+='<h3 style="grid-column:1/-1">Unsorted</h3>'+loose.map((x,i)=>row(x,false,i)).join("");
+  if(!L.length&&!loose.length)h+=emp("No chapters yet",(OK?"Create a chapter, then add files in its sections.":"Files will appear here soon."));
+  return h+(OK?'<button class="btn alt" style="grid-column:1/-1;margin-top:6px" onclick="newChapter()">＋ New chapter</button>':'')}
+ if(!S.sec)return crumbs()+secsFor(c,s,S.ch).map((n,i)=>fold(n,all.filter(x=>x.ch==S.ch&&x.sec==n).length,i,"openSec("+i+")",I.doc)).join("")+chTools();
+ const L=all.filter(x=>x.ch==S.ch&&x.sec==S.sec);return crumbs()+(L.length?L.map((x,i)=>row(x,false,i)).join(""):emp("Nothing here yet",(OK?"Tap + to add a file.":"Files will appear here soon.")))}
+function openCh(i){push();S.ch=chList(S.cls,S.sub)[i];S.sec=null;S.dir=1;render()}
+function openSec(i){push();S.sec=secsFor(S.cls,S.sub,S.ch)[i];S.dir=1;render()}
+function goCrumb(l){if(l==0)S.ch=null;S.sec=null;S.dir=-1;render()}
+function newChapter(){if(!OK){actionGate("Unlock","Enter your PIN to add a chapter.",()=>{OK=true;newChapter()});return}
+ sheet("nc",'<h1 style="font-size:24px">New chapter</h1><label>Chapter name</label><input type="text" id="ncn" maxlength="40" placeholder="e.g. Chapter 1"><button class="btn" onclick="createCh()">Create</button>');setTimeout(()=>$("ncn")?.focus(),80)}
+function createCh(){const n=$("ncn").value.trim();if(!n)return;if(S.sub=="Mathematics"&&!/\d/.test(n)){alert("Math chapter name needs its number, e.g. Chapter 6.");return}addCh(S.cls,S.sub,n);$("nc").remove();S.dir=0;render()}
+function delCh(i){const n=chList(S.cls,S.sub)[i];if(items.some(x=>x.cls==S.cls&&x.sub==S.sub&&x.cat=="Solved Notes"&&x.ch==n)){alert("Delete the files inside this chapter first.");return}
+ actionGate("Delete chapter?","This empty chapter will be removed.",()=>{const k=S.cls+"|"+S.sub;CHS[k]=(CHS[k]||[]).filter(z=>z!=n);persistCh();S.dir=0;render()})}
+function catChg(ch,sec){const v=$("a3").value;$("tg").style.display=v=="Extras"?"block":"none";$("sv").style.display=v=="Solved Notes"?"block":"none";fillCh(ch,sec)}
+function fillCh(ch,sec){const s=$("a2").value;$("a8").innerHTML=chList(+$("a1").value,s).map(n=>'<option>'+esc(n)+'</option>').join("")+'<option value="__new">\uff0b New chapter\u2026</option>';if(typeof ch=="string")$("a8").value=ch;fillSec(sec);newChg()}
+function fillSec(sec){const s=$("a2").value;let ch=$("a8").value;if(ch=="__new")ch=$("a10").value.trim();const keep=typeof sec=="string"?sec:$("a9").value;$("a9").innerHTML=secsFor(+$("a1").value,s,ch).map(n=>'<option>'+n+'</option>').join("");$("a9").value=keep;if(!$("a9").value)$("a9").selectedIndex=0}
+function newChg(){$("a10").style.display=$("a8").value=="__new"?"block":"none";fillSec()}
+const chNum=ch=>(String(ch).match(/\d+/)||["1"])[0];
+const exCnt=(c,ch)=>{const v=EXN[c+"|"+ch];return v==null?5:v};
+function secsFor(c,s,ch){if(s=="Mathematics"){const n=chNum(ch),k=exCnt(c,ch);return [...Array(k)].map((_,i)=>"Exercise "+n+"."+(i+1)).concat(["MCQs"])}return SEC[s]||DEFSEC}
+const needOK=cb=>OK?cb():actionGate("Unlock","Enter your PIN to continue.",()=>{OK=true;try{localStorage.setItem("adm","1")}catch(e){}cb()});
+function chTools(){if(!OK)return"";const B='<button class="btn alt" style="grid-column:1/-1;margin-top:6px" ';return (S.sub=="Mathematics"?B+'onclick="addEx()">\uff0b Exercise</button>'+B+'onclick="delEx()">Remove last exercise</button>':'')+B+'onclick="renameCh()">Rename chapter</button>'}
+function addEx(){needOK(()=>{EXN[S.cls+"|"+S.ch]=exCnt(S.cls,S.ch)+1;persistEx();S.dir=0;render()})}
+function delEx(){const k=exCnt(S.cls,S.ch);if(k<1)return;const last="Exercise "+chNum(S.ch)+"."+k;if(items.some(x=>x.cls==S.cls&&x.sub==S.sub&&x.ch==S.ch&&x.sec==last)){alert("Delete the files in "+last+" first.");return}needOK(()=>{EXN[S.cls+"|"+S.ch]=k-1;persistEx();S.dir=0;render()})}
+function renameCh(){needOK(()=>{sheet("rc",'<h1 style="font-size:24px">Rename chapter</h1><label>Chapter name</label><input type="text" id="rcn" maxlength="40" value="'+esc(S.ch)+'"><button class="btn" onclick="doRename()">Save</button>');setTimeout(()=>$("rcn")?.focus(),80)})}
+function doRename(){const o=S.ch,n=$("rcn").value.trim();if(!n||n==o){$("rc").remove();return}if(chList(S.cls,S.sub).includes(n)){alert("A chapter with this name already exists.");return}const m=S.sub=="Mathematics";if(m&&!/\d/.test(n)){alert("Math chapter name needs its number, e.g. Chapter 3.");return}
+ const on=chNum(o),nn=chNum(n),k=S.cls+"|"+S.sub;CHS[k]=(CHS[k]||[]).map(z=>z==o?n:z);persistCh();
+ [items,trashItems].forEach(L=>L.forEach(x=>{if(x.cls==S.cls&&x.sub==S.sub&&x.cat=="Solved Notes"&&x.ch==o){x.ch=n;if(m&&x.sec)x.sec=x.sec.replace("Exercise "+on+".","Exercise "+nn+".")}}));
+ if(m){const a=S.cls+"|"+o;if(EXN[a]!=null){EXN[S.cls+"|"+n]=EXN[a];delete EXN[a];persistEx()}}
+ save();saveTrash();S.ch=n;$("rc").remove();S.dir=0;render()}
+const addBtn=()=>OK?'<button class="ib pri" style="margin-left:auto" onclick="addSheet()">'+I.plus+'</button>':'';
+const BKC='<h3>Sharing &amp; backup</h3><div class="card" style="cursor:default"><b>Catalog &amp; backup</b><small>Export the catalog (Drive links only) and upload it as items.json so everyone sees the same files. Backup also saves chapters. PDFs picked from this phone are not included.</small><button class="btn" style="margin-top:16px" onclick="exportData(1)">Export catalog (items.json)</button><button class="btn alt" style="margin-top:12px" onclick="exportData(0)">Backup this device</button><label class="btn alt fl" style="display:block;text-align:center;margin-top:12px">Restore backup<input type="file" accept="application/json" onchange="importData(this)"></label></div>';
+function dl(n,o){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(o,null,1)],{type:"application/json"}));a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
+function exportData(sh){sh?dl("items.json",{items:items.filter(x=>x.type=="link"),CHS,EXN,removed:RM}):dl("do-it-backup.json",{items,trashItems,CHS,EXN,removed:RM})}
+function importData(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.items))throw 0;if(!confirm("Replace this device's catalog with the backup?"))return;items=d.items;trashItems=d.trashItems||[];CHS=d.CHS||{};EXN=d.EXN||{};RM=d.removed||[];save();saveTrash();persistCh();persistEx();persistRm();S.dir=0;render()}catch(e){alert("This is not a valid backup file.")}};r.readAsText(f)}
+let EF=null;
+function editF(id){const x=items.find(y=>y.id==id);if(!x)return;EF=x;let h='<h1 style="font-size:24px">Edit file</h1><label>Title</label><input type="text" id="ef1" value="'+esc(x.title)+'">';
+ if(x.type=="link")h+='<label>Drive link</label><input type="text" id="ef2" value="'+esc(x.url)+'">';
+ if(x.cat=="Solved Notes")h+='<label>Chapter</label><select id="ef3" onchange="efSec()">'+chList(x.cls,x.sub).map(n=>'<option>'+esc(n)+'</option>').join("")+'</select><label>Section</label><select id="ef4"></select>';
+ sheet("ef",h+'<button class="btn" onclick="saveEf()">Save</button>');if(x.cat=="Solved Notes"){if(x.ch)$("ef3").value=x.ch;efSec(x.sec)}}
+function efSec(sec){$("ef4").innerHTML=secsFor(EF.cls,EF.sub,$("ef3").value).map(n=>'<option>'+n+'</option>').join("");if(sec)$("ef4").value=sec}
+function saveEf(){const x=EF;if(!x)return;if($("ef2")){const id=driveId($("ef2").value.trim());if(!id){alert("Only Google Drive file links are supported.");return}const d=dupOf(id,x.id);if(d){alert("This link is already added: "+d.title+" ("+wh(d)+")");return}x.url="https://drive.google.com/file/d/"+id+"/view"}x.title=$("ef1").value.trim()||x.title;if($("ef3")&&$("ef3").value){x.ch=$("ef3").value;x.sec=$("ef4").value}save();$("ef").remove();S.dir=0;render()}
+function applyRemote(r){if(!r||!Array.isArray(r.items))return;const adm=localStorage.getItem("adm")=="1",rm=new Set(adm?[]:(r.removed||[]));
+ let L=items.filter(x=>!rm.has(x.id));r.items.forEach(ri=>{if(rm.has(ri.id))return;const i=L.findIndex(x=>x.id==ri.id);if(i<0){if(!trashItems.some(t=>t.id==ri.id))L.push(ri)}else if(!adm&&ri.type=="link")L[i]=ri});items=L;
+ Object.entries(r.CHS||{}).forEach(([k,v])=>{CHS[k]=adm?[...new Set([...(CHS[k]||[]),...v])]:v.slice()});Object.entries(r.EXN||{}).forEach(([k,v])=>{if(!adm||EXN[k]==null)EXN[k]=v});
+ save();persistCh();persistEx();if(!S.v&&!document.querySelector(".sheet"))render()}
+function loadRemote(){try{const c=localStorage.getItem("remote");if(c)applyRemote(JSON.parse(c))}catch(e){}
+ if(!CATALOG_URL)return;fetch(CATALOG_URL,{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject()).then(d=>{try{localStorage.setItem("remote",JSON.stringify(d))}catch(e){}applyRemote(d)}).catch(()=>{})}
+function retryView(){if(!navigator.onLine){alert("Still offline.");return}const p=H.pop();if(p)Object.assign(S,p);view(S.vid)}
+function libL(){
+ const q=(S.query||"").trim().toLocaleLowerCase();
+ const list=items.filter(x=>(!S.lib||x.cls==(S.lib==1?11:12))&&(!q||[x.title,x.sub,x.cat,x.tag,x.ch,x.sec,String(x.cls)+"th Class"].some(v=>String(v||"").toLocaleLowerCase().includes(q)))).slice().reverse();
+ return list.length?list.map((x,i)=>row(x,true,i)).join(""):emp(q?"No matching files":"Nothing here yet",q?"Try another file name, subject, class or section.":"Added files will show up here.")
+}
+function filterLib(value){S.query=value;const list=$("ls");if(list)list.innerHTML=libL()}
+function lib(){return hd("Library","All your PDFs in one place")+'<input class="lib-search" id="libSearch" type="search" enterkeyhint="search" autocapitalize="off" spellcheck="false" autocomplete="off" placeholder="Search files by name, subject…" aria-label="Search library files" value="'+esc(S.query||"")+'" oninput="filterLib(this.value)"><div class="tabs">'+["All","11th Class","12th Class"].map((c,i)=>'<button class="tab '+(S.lib==i?'on':'')+'" onclick="setLib(this,'+i+')">'+c+'</button>').join("")+'</div><div class="list sw" id="ls">'+libL()+'</div>'}
+function setLib(b,i){S.lib=i;document.querySelectorAll("#st .tabs .tab").forEach(t=>t.classList.toggle("on",t==b));swap("ls",libL())}
+function extras(){const L=items.filter(x=>x.cat=="Extras");let h='<div class="top">'+bk()+'<div><h1>Extras</h1><div class="sub">Patterns, date sheets &amp; pairing schemes</div></div>'+addBtn()+'</div>';
+ if(!L.length)return h+emp("No extras yet","Date sheets, paper patterns and pairing schemes will appear here.");
+ TAGS.forEach(t=>{const g=L.filter(x=>(x.tag||"Other")==t);if(g.length)h+='<h3>'+t+'</h3><div class="list" style="margin-bottom:22px">'+g.map((x,i)=>row(x,true,i)).join("")+'</div>'});return h}
+function profile(){return '<div class="top">'+bk()+'<h1 style="font-size:24px">Profile</h1></div><div class="me pop"><div class="badge" onclick="editMe()" style="cursor:pointer">'+av()+'</div><h1 style="font-size:26px">'+esc(ME.name)+'</h1><div class="sub">Class '+S.cls+'</div><button class="tab" style="margin-top:14px" onclick="editMe()">Edit profile</button></div><h3>Default class</h3>'+seg(S.cls,'pc')+
+ '<h3>Trash</h3><div class="card" style="cursor:default"><b>Recently deleted</b><small>Deleted files stay here until you permanently remove them.</small><button class="btn alt" style="margin-top:16px" onclick="openTrash()">Open Trash ('+trashItems.length+')</button></div><h3>Admin access</h3><div class="card" style="cursor:default"><b>'+(OK?'Unlocked':'Locked')+'</b><small>'+(OK?'You can add and delete files.':'Enter your PIN to add or delete files.')+'</small>'+
+ '<button class="btn '+(OK?'alt':'')+'" style="margin-top:16px" onclick="'+(OK?'lockAdm()':'pinSheet()')+'">'+(OK?'Lock now':'Unlock with PIN')+'</button></div>'+(OK?BKC:'')+'<div class="note" style="text-align:center;margin-top:26px">Do it · version 1.3</div>'}
+function pc(c){S.cls=c;$("sg").dataset.c=c;document.querySelectorAll("#sg button").forEach((b,i)=>b.classList.toggle("on",i==(c==11?0:1)))}
+function lockAdm(){OK=false;S.dir=0;render()}
+function viewer(){if(S.off)return '<div class="top pdf-top"><button class="ib" onclick="back()">'+I.back+'</button><h1>'+esc(S.vt)+'</h1></div><div class="pdf-stage"><div class="pdf-sync" style="pointer-events:auto;text-align:center;padding:20px"><b style="font-size:17px">No internet connection</b><div class="sync-sub" style="margin-top:0">Connect to the internet to open this file.</div><button class="btn" style="width:auto;margin-top:6px;padding:12px 26px" onclick="retryView()">Try again</button></div></div>';return '<div class="top pdf-top"><button class="ib" onclick="back()">'+I.back+'</button><h1>'+esc(S.vt)+'</h1><button class="ib pri download-btn" aria-label="Download PDF" title="Download PDF" onclick="downloadPdf()">'+I.download+'</button></div><div class="pdf-stage"><div class="pdf-sync" id="pdf-sync"><div class="sync-mark"><span class="sync-ring"></span><span class="sync-orbit"></span>'+I.lib+'</div><div class="sync-title">Preparing your PDF</div><div class="sync-sub">Loading document…</div><div class="sync-track"><i></i></div></div><iframe id="pdf-frame" src="'+S.vu+'" onload="pdfLoaded()"></iframe></div>'}
+function pdfLoaded(){const f=$("pdf-frame"),l=$("pdf-sync");if(!f||!l||l.dataset.waiting)return;l.dataset.waiting="1";/* Keep our sync animation covering the Google Drive preview’s own short loading phase. */setTimeout(()=>{if(!f.isConnected||!l.isConnected)return;f.classList.add("pdf-ready");requestAnimationFrame(()=>{l.classList.add("done");setTimeout(()=>{if(l.isConnected)l.remove()},180)})},100)}
+function view(id){const x=items.find(y=>y.id==id);const go=(u,d)=>{push();S.vu=u;S.vt=x.title;PDF_DOWNLOAD_URL=d||u;S.v=1;S.dir=1;S.off=x.type=="link"&&!navigator.onLine?1:0;S.vid=id;render();setTimeout(()=>{const l=$("pdf-sync");if(l&&!l.dataset.waiting){const t=l.querySelector(".sync-sub");if(t)t.textContent="Taking longer than usual. Check your internet connection."}},12000)};
+ if(x.type=="link"){const match=x.url.match(/\/file\/d\/([^/]+)/);const driveId=match?match[1]:"";const download=driveId?"https://drive.google.com/uc?export=download&id="+encodeURIComponent(driveId):x.url;go(x.url.replace(/\/view(?:\?.*)?$/,"/preview"),download)}else getF(id,b=>{if(!b){alert("File not found on this device.");return}const u=URL.createObjectURL(b);go(u,u)})}
+function downloadPdf(){if(!PDF_DOWNLOAD_URL)return;const a=document.createElement("a");a.href=PDF_DOWNLOAD_URL;a.download=(S.vt||"document")+".pdf";a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove()}
+function animateTrash(kind,done,id,actionName){
+ const btns=[...document.querySelectorAll("button.del")];
+ const btn=btns.find(b=>(b.getAttribute("onclick")||"").includes(actionName+"('"+id+"')"));
+ const card=btn?.closest(".card.row");
+ if(card){card.classList.remove("delete-combo");void card.offsetWidth;card.classList.add("delete-combo");setTimeout(()=>{if(done)done()},420);return}
+ if(done)done();
+}
+function toastUndo(id,title){document.getElementById("trash-toast")?.remove();clearTimeout(window.__trashToastTimer);const el=document.createElement("div");el.id="trash-toast";el.className="trash-toast";el.innerHTML='<b>Moved to Trash</b><button onclick="undoTrash(\''+id+'\')">Undo</button>';document.body.appendChild(el);window.__trashToastTimer=setTimeout(()=>{el.classList.add("out");setTimeout(()=>el.remove(),140)},2200);}
+function undoTrash(id){RM=RM.filter(z=>z!=id);persistRm();const el=$("trash-toast");el?.remove();const x=trashItems.find(y=>y.id==id);if(!x)return;delete x.deletedAt;items.unshift(x);trashItems=trashItems.filter(y=>y.id!=id);saveTrash();save();render()}
+function actionGate(title,detail,callback){sheet("actpin",'<h1 style="font-size:24px">'+title+'</h1><div class="sub">'+detail+'</div><label>Confirm with PIN</label><input type="text" id="actpi" inputmode="numeric" maxlength="8" autocomplete="off" style="-webkit-text-security:disc;letter-spacing:8px;text-align:center;font-size:22px"><div class="note" id="actpe" style="color:var(--coral)"></div><button class="btn" onclick="runActionPin()">Confirm</button><button class="btn alt" onclick="$(\'actpin\').remove()">Cancel</button>');window.__trashAction=callback;setTimeout(()=>$('actpi')?.focus(),80)}
+function runActionPin(){const input=$("actpi");if(!input)return;sha(input.value,h=>{if(h===PH){const cb=window.__trashAction;window.__trashAction=null;$("actpin")?.remove();if(cb)cb()}else $("actpe").textContent="Incorrect PIN. Try again."})}
+function rm(id){const x=items.find(y=>y.id==id);if(!x)return;actionGate("Move to Trash?","\u201c"+esc(x.title)+"\u201d will move to Trash. Enter your PIN to confirm.",()=>{animateTrash("trash",()=>{items=items.filter(y=>y.id!=id);x.deletedAt=Date.now();trashItems.unshift(x);RM.includes(id)||RM.push(id);persistRm();saveTrash();save();render();toastUndo(id,x.title)},id,"rm")})}
+function openTrash(){let h='<h1 style="font-size:24px">Trash</h1><div class="sub">Restore files or permanently delete them.</div>';if(!trashItems.length)h+='<div class="empty"><b>Trash is empty</b></div>';else h+='<div class="list" style="margin-top:18px">'+trashItems.map(x=>'<div class="card row"><div style="min-width:0;flex:1"><b>'+esc(x.title)+'</b><small>'+esc(x.sub)+' · '+x.cls+'th Class</small></div><button class="tab" onclick="restoreTrash(\''+x.id+'\')">Restore</button><button class="del danger" onclick="permanentDelete(\''+x.id+'\')">Delete</button></div>').join('')+'</div>';h+='<button class="btn alt" onclick="$(\'tr\').remove()">Close</button>';sheet('tr',h)}
+function restoreTrash(id){const x=trashItems.find(y=>y.id==id);if(!x)return;actionGate("Restore file?","\u201c"+esc(x.title)+"\u201d will return to its original place.",()=>{if(items.some(y=>y.id==id)){alert("A file with this ID already exists.");return}RM=RM.filter(z=>z!=id);persistRm();delete x.deletedAt;items.unshift(x);trashItems=trashItems.filter(y=>y.id!=id);saveTrash();save();$("tr")?.remove();render()})}
+function permanentDelete(id){const x=trashItems.find(y=>y.id==id);if(!x)return;actionGate("Permanently delete?","\u201c"+esc(x.title)+"\u201d will be permanently deleted. This cannot be undone. Enter your PIN.",()=>{animateTrash("perm",()=>{trashItems=trashItems.filter(y=>y.id!=id);delF(id);saveTrash();$("tr")?.remove();openTrash()},id,"permanentDelete")})}
+function render(){
+ $("app").classList.toggle("hide",!!S.v);$("nav").dataset.i=S.tab;
+ document.querySelectorAll("#nav button").forEach((b,i)=>b.classList.toggle("on",i==S.tab));
+ const h=S.v?viewer():[home,lib,extras,profile][S.tab]();
+ const n=document.createElement("div");n.className="page "+(S.v?"vw ":"")+(S.dir<0?"b":S.dir>0?"f":"");n.innerHTML=h;$("st").innerHTML="";$("st").appendChild(n)}
+function go(i){if(i==S.tab&&!S.sub)return;if(i==0)H=[];else push();S.dir=i>S.tab?1:-1;S.tab=i;S.sub=null;S.ch=S.sec=null;render()}
+function sheet(id,h){const el=document.createElement("div");el.className="sheet";el.id=id;el.onclick=e=>{if(e.target==el){el.style.opacity=0;setTimeout(()=>el.remove(),150)}};el.innerHTML='<div class="panel">'+h+'</div>';document.body.appendChild(el)}
+function addSheet(){if(!OK){pinSheet();return}
+ sheet("sh",'<h1 style="font-size:24px">Add a file</h1><label>Class</label><select id="a1" onchange="fillS()"><option>11</option><option>12</option></select><label>Subject</label><select id="a2" onchange="fillCh()"></select><label>Section</label><select id="a3" onchange="catChg()"><option>Books</option><option>Solved Notes</option><option>Extras</option></select>'+
+ '<div id="tg" style="display:none"><label>Type</label><select id="a4">'+TAGS.map(e=>'<option>'+e+'</option>').join("")+'</select></div><div id="sv" style="display:none"><label>Chapter</label><select id="a8" onchange="newChg()"></select><input type="text" id="a10" maxlength="40" placeholder="New chapter name" oninput="fillSec()" style="display:none;margin-top:10px"><label>Section</label><select id="a9"></select></div><label>Title</label><input type="text" id="a5" placeholder="e.g. Chapter 1 Notes"><label>PDF file</label><input type="file" id="a6" accept="application/pdf" style="width:100%;font:600 14px Nunito"><label>Or Google Drive link(s), one per line</label><textarea id="a7" rows="3" placeholder="Chapter 1 | https://drive.google.com/file/d/..."></textarea>'+
+ '<button class="btn" onclick="doAdd()">Add file</button><div class="note">Files picked from your phone are saved on this device only. Use a Drive link to share with everyone, and set its sharing to "Anyone with the link". To name each file, write the name before its link, e.g. Chapter 1 | link. Duplicates are skipped.</div>');
+ $("a1").value=S.cls;fillS();if(S.sub){$("a2").value=S.sub;$("a3").value=S.cat;catChg(S.ch,S.sec)}}
+function fillS(){$("a2").innerHTML=SUB[$("a1").value].map(s=>'<option>'+s[0]+'</option>').join("");fillCh()}
+const driveId=u=>{u=String(u);if(!/drive\.google\.com|docs\.google\.com/.test(u))return null;const m=u.match(/\/file\/d\/([\w-]+)/)||u.match(/[?&]id=([\w-]+)/);return m?m[1]:null};
+const wh=x=>x.cls+"th \u00b7 "+x.sub+" \u00b7 "+(x.ch?x.cat+" \u203a "+x.ch+" \u203a "+x.sec:(x.tag||x.cat));
+const dupOf=(k,ex)=>items.concat(trashItems).find(x=>x.id!=ex&&(x.type=="link"?driveId(x.url)==k:("f:"+x.fname+":"+x.fsize)==k));
+function doAdd(){const f=$("a6").files[0],cat=$("a3").value,base=$("a5").value.trim(),lines=$("a7").value.split(/\n+/).map(l=>l.trim()).filter(Boolean);
+ if(!f&&!lines.length){alert("Choose a PDF or paste a link.");return}
+ let ch="",sec="",mkCh=false;if(cat=="Solved Notes"){ch=$("a8").value;if(ch=="__new"){ch=$("a10").value.trim();if(!ch){alert("Enter a chapter name.");return}if($("a2").value=="Mathematics"&&!/\d/.test(ch)){alert("Math chapter name needs its number, e.g. Chapter 6.");return}mkCh=true}sec=$("a9").value}
+ const mk=o=>Object.assign({cls:+$("a1").value,sub:$("a2").value,cat:cat,tag:cat=="Extras"?$("a4").value:"",ch:ch,sec:sec},o),fin=()=>{if(mkCh)addCh(+$("a1").value,$("a2").value,ch)};
+ if(f){const d=dupOf("f:"+f.name+":"+f.size);if(d){alert("This PDF is already added: "+d.title+" ("+wh(d)+")");return}
+  const x=mk({id:"i"+Date.now(),title:base||f.name.replace(/\.pdf$/i,""),type:"file",url:"",fname:f.name,fsize:f.size});
+  putF(x.id,f,()=>{fin();items.push(x);save();$("sh").remove();S.dir=0;render()});return}
+ const out=[],bad=[],skip=[],seen=new Set();
+ lines.forEach(l=>{const m=l.match(/https?:\/\/\S+/),id=m&&driveId(m[0]);if(!id){bad.push(l);return}
+  if(seen.has(id)){skip.push(l);return}seen.add(id);const d=dupOf(id);if(d){skip.push(d.title+" ("+wh(d)+")");return}
+  const t=l.slice(0,m.index).replace(/[\s|:\-\u2013,]+$/,"").trim();
+  out.push(mk({id:"i"+Date.now()+"_"+out.length,title:t||(base?(lines.length>1?base+" "+(out.length+1):base):"Untitled"),type:"link",url:"https://drive.google.com/file/d/"+id+"/view"}))});
+ if(!out.length){alert(skip.length?"Already added: "+skip[0]+(skip.length>1?" (+"+(skip.length-1)+" more)":""):"Only Google Drive file links are supported. Paste the file's share link.");return}
+ fin();out.forEach(x=>items.push(x));save();$("sh").remove();S.dir=0;render();
+ if(bad.length||skip.length)alert(out.length+" added"+(skip.length?", "+skip.length+" already existed":"")+(bad.length?", "+bad.length+" not valid Drive links":"")+".")}
+function sha(s,cb){try{if(!window.crypto||!crypto.subtle){cb("");return}crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)).then(b=>cb([...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join(""))).catch(()=>cb(""))}catch(e){cb("")}}
+function pinSheet(){sheet("pn",'<h1 style="font-size:24px">Enter PIN</h1><div class="sub">PIN is required for protected actions</div><label>PIN</label><input type="text" id="pi" inputmode="numeric" maxlength="8" autocomplete="off" style="-webkit-text-security:disc;letter-spacing:8px;text-align:center;font-size:22px"><div class="note" id="pe" style="color:var(--coral)"></div><button class="btn" onclick="chk()">Unlock</button>');setTimeout(()=>$("pi").focus(),80)}
+function chk(){sha($("pi").value,h=>{if(h==PH){OK=true;try{localStorage.setItem("adm","1")}catch(e){}$("pn").remove();if(S.tab==3){S.dir=0;render()}else addSheet()}else $("pe").textContent="Incorrect PIN"})}
+const av=()=>ME.pic?'<img alt="" src="'+ME.pic+'">':I.user;
+function editMe(){sheet("em",`<h1 style="font-size:24px">Edit profile</h1><div class="me" style="margin:18px 0 0"><div class="badge" id="pv">${av()}</div><label class="tab fl">Change photo<input type="file" accept="image/*" onchange="pickPic(this)"></label></div><label>Name</label><input type="text" id="nm" maxlength="24" placeholder="Your name" value="${ME.name=="Student"?"":esc(ME.name)}"><button class="btn" onclick="saveMe()">Save</button>${ME.pic?`<button class="btn alt" style="margin-top:12px" onclick="ME.pic='';$('pv').innerHTML=I.user">Remove photo</button>`:""}`)}
+function pickPic(i){const f=i.files[0];if(!f)return;const u=URL.createObjectURL(f),im=new Image();im.onload=()=>{try{const c=document.createElement("canvas"),s=256,m=Math.min(im.width,im.height);c.width=c.height=s;c.getContext("2d").drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,s,s);ME.pic=c.toDataURL("image/jpeg",.85);$("pv").innerHTML=av()}catch(e){alert("Couldn't use this photo. Try another one.")}URL.revokeObjectURL(u)};im.onerror=()=>alert("Couldn't open this image. Try a JPG or PNG.");im.src=u}
+function saveMe(){ME.name=$("nm").value.trim()||"Student";try{localStorage.setItem("me",JSON.stringify(ME))}catch(e){}$("em").remove();S.dir=0;render()}
+$("app").insertAdjacentHTML("beforeend",'<nav id="nav" data-i="0"><i></i>'+NV.map((n,i)=>'<button type="button" onclick="event.preventDefault();event.stopPropagation();go('+i+')">'+I[n[1]]+'<span>'+n[0]+'</span></button>').join("")+'</nav>');
+(function(){const st=$("st"),pt=$("pt"),pa=pt.querySelector("path");let y0=0,x0=0,d=0,act=false,busy=false;
+const pg=()=>st.firstChild;
+function upd(){const p=Math.min(1,d/70);st.style.transform="translateY("+d*.7+"px)";pt.style.opacity=Math.min(1,d/25);pt.style.transform="translateY("+(d*.35-22)+"px)";pa.style.strokeDashoffset=100-p*100}
+st.addEventListener("touchstart",e=>{if(busy||S.v||document.querySelector(".sheet")||!pg()||pg().scrollTop>0)return;y0=e.touches[0].clientY;x0=e.touches[0].clientX;act=true;d=0;st.style.transition="none";pt.style.transition="none"},{passive:true});
+st.addEventListener("touchmove",e=>{if(!act)return;const t=e.touches[0],dy=t.clientY-y0;if(dy<=0||pg().scrollTop>0){if(d>0){d=0;upd()}return}if(Math.abs(t.clientX-x0)>dy)return;e.preventDefault();d=Math.min(dy*.5,110);upd()},{passive:false});
+const end=()=>{if(!act)return;act=false;st.style.transition="transform .38s var(--ease)";pt.style.transition="transform .38s var(--ease),opacity .25s";
+ if(d>=70){busy=true;st.style.transform="translateY(42px)";pt.style.transform="translateY(0px)";pa.style.strokeDashoffset="";pt.classList.add("spin");
+  setTimeout(()=>{try{items=JSON.parse(localStorage.getItem("items")||"[]")}catch(e){}loadRemote();st.style.transition="none";st.style.transform="";pt.style.opacity=0;pt.style.transform="translateY(-22px)";pt.classList.remove("spin");pa.style.strokeDashoffset=100;S.dir=0;render();busy=false},1000)}
+ else{st.style.transform="";pt.style.opacity=0;pt.style.transform="translateY(-22px)"}d=0};
+st.addEventListener("touchend",end);st.addEventListener("touchcancel",end)})();
+
+(function(){let t=null,lp=false;const sel=e=>e.target.closest&&e.target.closest('button[onclick="back()"]');
+const st=e=>{if(!sel(e))return;lp=false;clearTimeout(t);t=setTimeout(()=>{lp=true;try{navigator.vibrate&&navigator.vibrate(15)}catch(x){}H=[];S.tab=0;S.sub=null;S.ch=S.sec=null;S.v=null;S.dir=-1;render();setTimeout(()=>{lp=false},360)},550)};
+const en=()=>clearTimeout(t);
+document.addEventListener("touchstart",st,{passive:true});document.addEventListener("mousedown",st);
+["touchend","touchmove","touchcancel","mouseup"].forEach(n=>document.addEventListener(n,en,true));
+document.addEventListener("click",e=>{if(lp){e.preventDefault();e.stopPropagation();lp=false}},true);
+document.addEventListener("contextmenu",e=>{if(sel(e))e.preventDefault()})})();
+render(); // Show the locally available app immediately; IndexedDB opens in parallel.
+idb(()=>{});loadRemote();if("serviceWorker" in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register("sw.js").catch(()=>{});
+const splash=$("sp");
+// Preserve the branded first screen, with only a short intentional pause.
+setTimeout(()=>{
+  if(!splash||!splash.isConnected)return;
+  splash.classList.add("gone");
+  setTimeout(()=>splash.remove(),220);
+},1800);
+</script></body></html>
